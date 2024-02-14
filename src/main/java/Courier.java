@@ -1,7 +1,7 @@
 public class Courier {
-    protected static String login;
-    protected static String password;
-    protected static String firstName;
+    private String login;
+    private String password;
+    private String firstName;
 
     public Courier(String login, String password, String firstName) {
         this.login = login;

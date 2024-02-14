@@ -21,7 +21,7 @@ public class CreateCourierTest {
     @DisplayName("Создание курьера со всеми полями")
     public void testCreateCourier() {
         courier = new Courier("sarmat", "1234", "Sasha");
-        Response response = new ScooterAPI().createCourier();
+        Response response = new ScooterAPI().createCourier(courier);
         statusCode = response.getStatusCode();
         assertEquals(201, statusCode);
         String expectedBody = "{\"ok\":true}";
@@ -32,8 +32,8 @@ public class CreateCourierTest {
     @DisplayName("Создание курьера с занятым логином")
     public void testCreateDoubleCourier() {
         courier = new Courier("sarmat", "1234", "Sasha");
-        Response response = new ScooterAPI().createCourier();
-        Response responseSecond = new ScooterAPI().createCourier();
+        Response response = new ScooterAPI().createCourier(courier);
+        Response responseSecond = new ScooterAPI().createCourier(courier);
         statusCode = response.getStatusCode();
         assertEquals(409, responseSecond.getStatusCode());
         JsonPath jsonPath = responseSecond.getBody().jsonPath();
@@ -46,7 +46,7 @@ public class CreateCourierTest {
     @DisplayName("Создание курьера без логина")
     public void testCreateCourierWithoutLogin() {
         courier = new Courier("", "1234", "Sasha");
-        Response response = new ScooterAPI().createCourier();
+        Response response = new ScooterAPI().createCourier(courier);
         statusCode = response.getStatusCode();
         assertEquals(400, statusCode);
         JsonPath jsonPath = response.getBody().jsonPath();
@@ -59,7 +59,7 @@ public class CreateCourierTest {
     @DisplayName("Создание курьера без пароля")
     public void testCreateCourierWithoutPassword() {
         courier = new Courier("sarmat", "", "Sasha");
-        Response response = new ScooterAPI().createCourier();
+        Response response = new ScooterAPI().createCourier(courier);
         statusCode = response.getStatusCode();
         assertEquals(400, statusCode);
         JsonPath jsonPath = response.getBody().jsonPath();
@@ -72,7 +72,7 @@ public class CreateCourierTest {
     @DisplayName("Создание курьера без имени")
     public void testCreateCourierWithoutFirstName() {
         courier = new Courier("sarmat", "1234", "");
-        Response response = new ScooterAPI().createCourier();
+        Response response = new ScooterAPI().createCourier(courier);
         statusCode = response.getStatusCode();
         assertEquals(201, statusCode);
         String expectedBody = "{\"ok\":true}";
@@ -81,9 +81,9 @@ public class CreateCourierTest {
 
     @After
     public void tearDown() {
-        if (statusCode < 300) {
+        if (statusCode == 201) {
             ScooterAPI scooterAPI = new ScooterAPI();
-            scooterAPI.deleteCourier();
+            scooterAPI.deleteCourier(courier.getLogin(), courier.getPassword());
         }
     }
 }

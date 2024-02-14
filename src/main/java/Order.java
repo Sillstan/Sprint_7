@@ -1,86 +1,86 @@
 import java.util.List;
 
 public class Order {
-    protected static String firstName;
-    protected static String lastName;
-    protected static String address;
-    protected static int metroStation;
-    protected static String phone;
-    protected static int rentTime;
-    protected static String deliveryDate;
-    protected static String comment;
-    protected static List<String> color;
+    protected String firstName;
+    protected String lastName;
+    protected String address;
+    protected int metroStation;
+    protected String phone;
+    protected int rentTime;
+    protected String deliveryDate;
+    protected String comment;
+    protected List<String> color;
 
-    public static String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public static void setFirstName(String firstName) {
-        Order.firstName = firstName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public static String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    public static void setLastName(String lastName) {
-        Order.lastName = lastName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public static String getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public static void setAddress(String address) {
-        Order.address = address;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public static int getMetroStation() {
+    public int getMetroStation() {
         return metroStation;
     }
 
-    public static void setMetroStation(int metroStation) {
-        Order.metroStation = metroStation;
+    public void setMetroStation(int metroStation) {
+        this.metroStation = metroStation;
     }
 
-    public static String getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public static void setPhone(String phone) {
-        Order.phone = phone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public static int getRentTime() {
+    public int getRentTime() {
         return rentTime;
     }
 
-    public static void setRentTime(int rentTime) {
-        Order.rentTime = rentTime;
+    public void setRentTime(int rentTime) {
+        this.rentTime = rentTime;
     }
 
-    public static String getDeliveryDate() {
+    public String getDeliveryDate() {
         return deliveryDate;
     }
 
-    public static void setDeliveryDate(String deliveryDate) {
-        Order.deliveryDate = deliveryDate;
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
-    public static String getComment() {
+    public String getComment() {
         return comment;
     }
 
-    public static void setComment(String comment) {
-        Order.comment = comment;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public static List<String> getColor() {
+    public List<String> getColor() {
         return color;
     }
 
-    public static void setColor(List<String> color) {
-        Order.color = color;
+    public void setColor(List<String> color) {
+        this.color = color;
     }
 
     public Order(String firstName, String lastName, String address, int metroStation, String phone, int rentTime, String deliveryDate, String comment, List<String> color) {

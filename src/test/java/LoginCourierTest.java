@@ -16,14 +16,14 @@ public class LoginCourierTest {
     @Before
     public void setUp() {
         RestAssured.baseURI = ScooterAPI.URL;
+        courier = new Courier("sarmat", "1234", "Sasha");
+        Response response = new ScooterAPI().createCourier(courier);
+        statusCode = response.getStatusCode();
     }
 
     @Test
     @DisplayName("Логин курьера с валидными данными")
     public void testLoginValidCourier() {
-        courier = new Courier("sarmat", "1234", "Sasha");
-        Response response = new ScooterAPI().createCourier();
-        statusCode = response.getStatusCode();
         Response responseSecond = new ScooterAPI().loginCourier(courier.getLogin(), courier.getPassword());
         assertEquals(200, responseSecond.getStatusCode());
         assertNotNull(responseSecond.jsonPath().getString("id"));
@@ -32,9 +32,6 @@ public class LoginCourierTest {
     @Test
     @DisplayName("Логин курьера с пустым полем login")
     public void testLoginCourierWithoutLogin() {
-        courier = new Courier("sarmat", "1234", "Sasha");
-        Response response = new ScooterAPI().createCourier();
-        statusCode = response.getStatusCode();
         Response responseSecond = new ScooterAPI().loginCourier("", courier.getPassword());
         assertEquals(400, responseSecond.getStatusCode());
         JsonPath jsonPath = responseSecond.getBody().jsonPath();
@@ -46,9 +43,6 @@ public class LoginCourierTest {
     @Test
     @DisplayName("Логин курьера с пустым полем password")
     public void testLoginCourierWithoutPassword() {
-        courier = new Courier("sarmat", "1234", "Sasha");
-        Response response = new ScooterAPI().createCourier();
-        statusCode = response.getStatusCode();
         Response responseSecond = new ScooterAPI().loginCourier(courier.getLogin(), "");
         assertEquals(400, responseSecond.getStatusCode());
         JsonPath jsonPath = responseSecond.getBody().jsonPath();
@@ -60,9 +54,6 @@ public class LoginCourierTest {
     @Test
     @DisplayName("Логин курьера с невалидными данными в поле login")
     public void testLoginCourierWithInvalidLogin() {
-        courier = new Courier("sarmat", "1234", "Sasha");
-        Response response = new ScooterAPI().createCourier();
-        statusCode = response.getStatusCode();
         Response responseSecond = new ScooterAPI().loginCourier("sodomitataspalanskii", courier.getPassword());
         assertEquals(404, responseSecond.getStatusCode());
         JsonPath jsonPath = responseSecond.getBody().jsonPath();
@@ -74,9 +65,6 @@ public class LoginCourierTest {
     @Test
     @DisplayName("Логин курьера с невалидными данными в поле password")
     public void testLoginCourierWithInvalidPassword() {
-        courier = new Courier("sarmat", "1234", "Sasha");
-        Response response = new ScooterAPI().createCourier();
-        statusCode = response.getStatusCode();
         Response responseSecond = new ScooterAPI().loginCourier(courier.getLogin(), "0000");
         assertEquals(404, responseSecond.getStatusCode());
         JsonPath jsonPath = responseSecond.getBody().jsonPath();
@@ -87,9 +75,9 @@ public class LoginCourierTest {
 
     @After
     public void tearDown() {
-        if (statusCode < 300) {
+        if (statusCode == 201) {
             ScooterAPI scooterAPI = new ScooterAPI();
-            scooterAPI.deleteCourier();
+            scooterAPI.deleteCourier(courier.getLogin(), courier.getPassword());
         }
     }
 }

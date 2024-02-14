@@ -26,15 +26,15 @@ public class ScooterAPI {
                 .addFilter(new ErrorLoggingFilter())
                 .build();
     }
-    protected Response createCourier() {
+    protected Response createCourier(Courier courier) {
         return given()
                 .spec(baseRequestSpec())
-                .body("{ \"login\": \"" + Courier.login + "\", \"password\": \"" + Courier.password + "\", \"firstName\": \"" + Courier.firstName + "\" }")
+                .body(courier)
                 .post(CREATE_COURIER_ENDPOINT)
                 .thenReturn();
     }
-    protected void deleteCourier() {
-        Response response = loginCourier(Courier.login, Courier.password);
+    protected void deleteCourier(String login, String password) {
+        Response response = loginCourier(login, password);
         int id = response.jsonPath().getInt("id");
         given()
                 .spec(baseRequestSpec())
@@ -53,28 +53,10 @@ public class ScooterAPI {
     }
 
     protected Response createOrderWithColor(List<String> color) {
-        StringBuilder colorJson = new StringBuilder("[");
-        for (int i = 0; i < color.size(); i++) {
-            colorJson.append("\"").append(color.get(i)).append("\"");
-            if (i < color.size() - 1) {
-                colorJson.append(", ");
-            }
-        }
-        colorJson.append("]");
-        String requestBody = "{" +
-                "\"firstName\": \"Naruto\"," +
-                "\"lastName\": \"Uchiha\"," +
-                "\"address\": \"Konoha, 142 apt.\"," +
-                "\"metroStation\": 4," +
-                "\"phone\": \"+7 800 355 35 35\"," +
-                "\"rentTime\": 5," +
-                "\"deliveryDate\": \"2024-03-03\"," +
-                "\"comment\": \"Saske, come back to Konoha\"," +
-                "\"color\": " + colorJson.toString() +
-                "}";
+        Order order = orderWithColor(color);
         return given()
                 .spec(baseRequestSpec())
-                .body(requestBody)
+                .body(order)
                 .post(ORDER_ENDPOINT)
                 .thenReturn();
     }
@@ -84,5 +66,17 @@ public class ScooterAPI {
                 .spec(baseRequestSpec())
                 .get(ORDER_ENDPOINT)
                 .thenReturn();
+    }
+
+    protected Order orderWithColor(List<String> color) {
+        String firstName = "Naruto";
+        String lastName = "Uchiha";
+        String address = "Konoha, 142 apt.";
+        int metroStation = 4;
+        String phone = "+7 800 355 35 35";
+        int rentTime = 5;
+        String deliveryDate = "2024-03-03";
+        String comment = "Saske, come back to Konoha";
+        return new Order (firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
     }
 }
